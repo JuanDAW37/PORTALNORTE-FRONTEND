@@ -1,0 +1,64 @@
+<main class="container border mt-2">
+  <h2 class="text-center mt-2">{{tit}}</h2>
+  <form [formGroup]="ModiForm">
+    <div class="row mb-3 mt-3 form-group">
+      <!--Título -->
+      <label class="col-1 col-form-label" for="tipo">Titulo<span class="importante">*</span></label>
+      <div class="col-6">
+        <input type="text" id="tipo" class="form-control" formControlName="tipo" placeholder="Tipo de actividad"/>
+        <div [hidden]="tipo.valid || tipo.pristine">
+          <span *ngIf="tipo.errors?.['required']">El tipo de actividad es obligatorio</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3 mt-3 form-group">
+      <!-- Foto -->
+      <label class="col-1 col-form-label" for="foto">Foto</label>
+      <div class="col-4">
+        <input type="file" id="foto" name="foto" class="form-control" (change)="subirFoto($event)"/>
+      </div>
+    </div>
+
+    <div class="row mb-3 mt-3 form-group">
+      <!--Previsualización-->
+      <div class="col-6" *ngIf="previaFoto">
+        <img #imagenPrevisualizacion [src]="previaFoto" alt="Imagen de previsualización" height="50px" width="50px"/>
+      </div>
+    </div>
+
+    <div class="row mb-3 mt-3 form-group">
+      <!-- Icono -->
+      <label class="col-1 col-form-label" for="icono">Icono</label>
+      <div class="col-4">
+        <input type="file" id="icono" name="icono" class="form-control" (change)="subirIcono($event)"/>
+      </div>
+    </div>
+
+    <div class="row mb-3 mt-3 form-group">
+      <!--Previsualización-->
+      <div class="col-6" *ngIf="previaIcono">
+        <img #imagenPrevisualizacion [src]="previaIcono" alt="Imagen de previsualización" height="50px" width="50px"/>
+      </div>
+    </div>
+
+    <div class="row m-4">
+      <div class="col-6">Los campos marcados con&nbsp;<span class="importante">*</span>&nbsp;son obligatorios</div>
+    </div>
+
+    <div class="row justify-content-center mb-2">
+      <div class="col-2 ml-2">
+      <!-- Botón guardar-->
+        <button type="button" class="btn btn-outline-success" (click)="guardar()" [disabled]="ModiForm.invalid || this.tipos_servicio.estado">
+          Guardar</button>
+      </div>
+      <div class="col-2 ml-2">
+        <!-- Botón cancelar -->
+        <button type="button" class="btn btn-outline-warning" (click)="cerrar()">Cerrar</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 text-primary">{{mensaje}}</div>
+  </div>
+  </form>
+</main>

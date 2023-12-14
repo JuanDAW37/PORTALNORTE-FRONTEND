@@ -1,0 +1,254 @@
+<main class="container border mt-2">
+  <h2 class="text-center mt-2">{{titulo}}</h2>
+  <form [formGroup]="uploadForm">
+
+    <div class="row mb-3 mt-3 form-group">
+      <!-- Nombre -->
+      <label class="col-1 col-form-label" for="nombre">Nombre<span class="importante">*</span></label>
+      <div class="col-4">
+        <input type="text" id="nombre" class="form-control" formControlName="nombre" placeholder="Nombre"/>
+        <div [hidden]="nombre.valid || nombre.pristine">
+          <span *ngIf="nombre.errors?.['required']">El nombre es obligatorio</span>
+        </div>
+      </div>
+      <!-- NIF -->
+        <label class="col-1 col-form-label" for="nif">NIF<span class="importante">*</span></label>
+        <div class="col-4">
+          <input type="text" id="nif" class="form-control" formControlName="nif" (blur)="compruebaNIF($event)" (input)="borrarMensaje()" placeholder="NIF"/>
+          <span [hidden]="nif.valid || nif.pristine">
+            <span *ngIf="nif.errors?.['required']">El nif es obligatorio</span>
+          </span>
+          <span class="text-warning">{{error_nif}}</span>
+        </div>
+    </div>
+
+    <div class="row mb-3 mt-3 form-group">
+      <!-- Apellido1 -->
+      <label class="col-1 col-form-label" for="apellido1">Apellido<span class="importante">*</span></label>
+      <div class="col-4">
+        <input type="text" id="apellido1" class="form-control" formControlName="apellido1" placeholder="Apellido"/>
+        <div [hidden]="apellido1.valid || apellido1.pristine">
+          <span *ngIf="apellido1.errors?.['required']">El apellido es obligatorio</span>
+        </div>
+      </div>
+      <!-- Apellido2 -->
+        <label class="col-1 col-form-label" for="apellido2">Apellido</label>
+        <div class="col-4">
+          <input type="text" id="apellido2" class="form-control" formControlName="apellido2" placeholder="Apellido"/>
+        </div>
+    </div>
+
+    <div class="row mb-3 mt-3 form-group">
+      <!--Calle-->
+      <label class="col-1 col-form-label" for="calle">Calle<span class="importante">*</span></label>
+      <div class="col-3">
+        <input type="text" id="calle" class="form-control" formControlName="calle" placeholder="Calle"/>
+          <div [hidden]="calle.valid || calle.pristine">
+            <span *ngIf="calle.errors?.['required']">La calle es obligatoria</span>
+          </div>
+      </div>
+      <!-- Número -->
+      <label class="col-1 col-form-label" for="numero">número</label>
+      <div class="col-1">
+        <input type="text" id="numero" class="form-control" formControlName="numero" placeholder="Número"/>
+      </div>
+      <!-- Km -->
+      <label class="col-1 col-form-label" for="km">km</label>
+      <div class="col-1">
+        <input type="text" id="km" class="form-control" formControlName="km" placeholder="km"/>
+      </div>
+    </div>
+
+    <div class="row mb-3 mt-3 form-group">
+      <!-- Bloque -->
+      <label class="col-1 col-form-label" for="bloque">bloque</label>
+      <div class="col-1">
+        <input type="text" id="bloque" class="form-control" formControlName="bloque" placeholder="Bloque"/>
+      </div>
+
+      <!-- Piso -->
+      <label class="col-1 col-form-label" for="piso">piso</label>
+      <div class="col-1">
+        <input type="text" id="piso" class="form-control" formControlName="piso" placeholder="Piso"/>
+      </div>
+
+      <!-- Letra -->
+      <label class="col-1 col-form-label" for="letra">letra</label>
+      <div class="col-1">
+        <input type="text" id="letra" class="form-control" formControlName="letra" placeholder="Letra"/>
+      </div>
+    </div>
+
+    <div class="row mb-3 mt-3 form-group">
+      <!-- Código postal -->
+      <label class="col-1 col-form-label" for="cp">Código Postal<span class="importante">*</span></label>
+      <div class="col-2">
+        <input type="text" id="cp" class="form-control" formControlName="cp" (focus)="entraCp()"
+        (blur)="buscarCp($event)" placeholder="Código Postal"/>
+        <span [hidden]="cp.valid || cp.pristine">
+          <span *ngIf="cp.errors?.['required']">El Código postal es obligatorio</span>
+        </span>
+      </div>
+
+      <!--Ciudad-->
+      <label class="col-1 col-form-label" for="ciudad">Ciudad<span class="importante">*</span></label>
+      <div class="col-2">
+        <input type="text" id="ciudad" class="form-control" formControlName="ciudad" (focus)="entraCiudad()"
+        (blur)="buscarCiudad($event)" placeholder="Ciudad"/>
+        <span [hidden]="ciudad.valid || ciudad.pristine">
+          <span *ngIf="ciudad.errors?.['required']">La ciudad es obligatoria</span>
+        </span>
+      </div>
+
+      <!-- Provincia -->
+      <label class="col-1 col-form-label" for="provincia">Provincia<span class="importante">*</span></label>
+        <div class="col-2">
+          <input type="text" id="provincia" class="form-control" formControlName="provincia" (focus)="entraProvincia()"
+          (blur)="buscarProvincia($event)" placeholder="Provincia"/>
+          <span [hidden]="provincia.valid || provincia.pristine">
+            <span *ngIf="provincia.errors?.['required']">La provincia obligatoria</span>
+          </span>
+        </div>
+
+      <!-- País -->
+      <label class="col-1 col-form-label" for="pais">País<span class="importante">*</span></label>
+        <div class="col-2">
+          <input type="text" id="pais" class="form-control" formControlName="pais" (focus)="entraPais()"
+          (blur)="buscarPais($event)" value="España"/>
+          <span [hidden]="pais.valid || pais.pristine">
+            <span *ngIf="pais.errors?.['required']">El País es obligatorio</span>
+          </span>
+        </div>
+
+    </div>
+
+    <div class="row mb-3 mt-3 form-group">
+      <!-- Usuario -->
+      <label class="col-1 col-form-label" for="user">Usuario<span class="importante">*</span></label>
+      <div class="col-2">
+        <input type="text" id="usuario" class="form-control" formControlName="user" (blur)="compruebaNIF($event)" (input)="borrarMensaje()" placeholder="Usuario"/>
+        <span [hidden]="user.valid || user.pristine">
+            <span *ngIf="user.errors?.['required']">El Usuario es obligatorio</span>
+        </span>
+        <span class="text-warning">{{error_user}}</span>
+      </div>
+
+      <!-- Contraseña -->
+      <label class="col-1 col-form-label" for="password">Contraseña<span class="importante">*</span></label>
+      <div class="col-2">
+        <input type="password" id="paswword" class="form-control" formControlName="password" placeholder="Password"/>
+        <span [hidden]="password.valid || password.pristine">
+            <span *ngIf="password.errors?.['required']">La contraseña es obligatoria</span>
+        </span>
+      </div>
+      <div class="col-2 ml-2">
+      <!-- Botón edit_password-->
+        <button type="button" class="btn btn-outline-warning" (click)="change_password()" [disabled]="this.clientesService.estado">
+          Cambiar</button>
+      </div>
+      <!-- Foto -->
+      <label class="col-1 col-form-label" for="foto">Foto</label>
+      <div class="col-3">
+        <input type="file" id="foto" name="foto" class="form-control" (change)="subirFoto($event)"/>
+      </div>
+      <!--Previsualización-->
+      <div class="col-1" *ngIf="previsualizacion">
+        <img #imagenPrevisualizacion [src]="previsualizacion" alt="Imagen de previsualización" height="50px" width="50px"/>
+      </div>
+    </div>
+
+    <div class="row mb-3 mt-3 form-group">
+      <!-- Fecha de baja -->
+      <label class="col-1 col-form-label" for="fecha">Fecha baja</label>
+      <div class="col-2">
+        <input type="date" id="fecha" class="form-control" formControlName="date" placeholder="Fecha de baja"/>
+      </div>
+
+      <!-- Bonificación -->
+      <label class="col-1 col-form-label" for="bonificacion">Bonificación</label>
+      <div class="col-2">
+        <input type="number" id="bonificacion" class="form-control" formControlName="bonificacion" placeholder="Bonificación"/>
+      </div>
+    </div>
+
+    <div class="row mb-3 mt-3 form-group border">
+      <div class="col-6">
+          <!-- Telefonos -->
+          <label class="col-1 col-form-label" for="telefono">Telefono</label>
+          <div class="input-group mb-3 col-4">
+            <input type="phone" class="form-control" id="telefono" formControlName="nTelef" placeholder="Telefono" aria-label="Telefono">
+            <button class="btn btn-outline-info" type="button" (click)="guardaTelefono()">Guardar</button>
+          </div>
+          <div class="text-danger">{{this.error_telef}}</div>
+          <div class="table-responsive">
+            <table class="table table-striped table-sm border table-wrapper">
+              <thead>
+                <tr>
+                  <th class="text-center">Número</th>
+                  <th class="text-center">Modificar</th>
+                  <th class="text-center">Borrar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let telefono of this.telef; let i = index;">
+                <td>{{telefono.numero}}</td>
+                <td><button class="btn btn-outline-primary" type="button" [disabled]="this.clientesService.estado"
+                (click)="cogeTelefono(i)">Modificar</button></td>
+                <td><button class="btn btn-outline-danger" type="button" [disabled]="this.clientesService.estado"
+                (click)="borraTelefono(i)">Borrar</button></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-6">
+          <!-- Emails -->
+          <label class="col-1 col-form-label" for="email">Email</label>
+          <div class="input-group mb-3 col-4">
+            <input type="email" id="email" class="form-control" formControlName="dEmail" placeholder="Email"/>
+            <button type="button" class="btn btn-outline-info" (click)="guardaEmail()">Guardar</button>
+          </div>
+          <div class="text-danger">{{this.error_mail}}</div>
+          <div class="table-responsive">
+            <table class="table table-striped table-sm border table-wrapper">
+              <thead>
+                <tr>
+                  <th class="text-center">Email</th>
+                  <th class="text-center">Modificar</th>
+                  <th class="text-center">Borrar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let email of this.email; let i = index;">
+                <td>{{email.email}}</td>
+                <td><button class="btn btn-outline-primary" type="button" [disabled]="this.clientesService.estado"
+                (click)="cogeEmail(i)">Modificar</button></td>
+                <td><button class="btn btn-outline-danger" type="button" [disabled]="this.clientesService.estado"
+                (click)="borraEmail(i)">Borrar</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    <div class="row">
+      <div class="col-6">Los campos marcados con&nbsp;<span class="importante">*</span>&nbsp;son obligatorios</div>
+    </div>
+
+    <div class="row justify-content-center mb-2">
+      <div class="col-2 ml-2">
+      <!-- Botón guardar-->
+        <button type="button" class="btn btn-outline-success" (click)="guardar()" [disabled]="uploadForm.invalid || this.clientesService.estado">
+          Guardar</button>
+      </div>
+      <div class="col-2 ml-2">
+        <!-- Botón cancelar -->
+        <button type="button" class="btn btn-outline-warning" (click)="cerrar()">Cerrar</button>
+      </div>
+    </div>
+  </form>
+  <div class="row">
+    <div class="col-6 text-primary">{{mensaje}}</div>
+  </div>
+</main>

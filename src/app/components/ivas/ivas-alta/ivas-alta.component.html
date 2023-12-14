@@ -1,0 +1,38 @@
+<main class="form w-50 m-auto border">
+  <h3 class="text-center">Alta de IVA</h3>
+  <form [formGroup]="formIva">
+    <div class="row m-5">
+      <!-- Nombre -->
+      <label class="col-2 col-form-label" for="nombre">Nombre<span class="importante">*</span></label>
+      <div class="col-4">
+        <input type="text" id="nombre" class="form-control" formControlName="nombre" placeholder="Nombre"/>
+        <div class="alert alert-danger mt-2" [hidden]="nombre.valid || nombre.pristine">
+          <span *ngIf="nombre.errors?.['required']">El nombre es obligatorio</span>
+        </div>
+      </div>
+      <!--Porcentaje de IVA-->
+      <label class="col-2 col-form-label" for="porcentaje">Porcent. %<span class="importante">*</span></label>
+      <div class="col-2">
+        <input type="number" id="porcentaje" formControlName="tipo" class="form-control" placeholder="Porcentaje %"/>
+        <div class="alert alert-danger mt-2 numeros" [hidden]="tipo.valid">
+          <span *ngIf="tipo.errors?.['required']">El tipo de IVA es obligatorio</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-4">
+      <div class="col-6">Los campos marcados con&nbsp;<span class="importante">*</span>&nbsp;son obligatorios</div>
+    </div>
+
+    <div class="row justify-content-center mb-2">
+      <div class="col-2 ml-2">
+        <!-- Botón guardar-->
+        <button type="button" class="btn btn-outline-success w-15" (click)="guardar()" [disabled]="formIva.invalid">Guardar</button>
+      </div>
+      <div class="col-2 ml-2">
+        <!-- Botón cancelar -->
+        <button type="button" class="btn btn-outline-warning w-15" (click)="cerrar()">Cerrar</button>
+      </div>
+    </div>
+  </form>
+</main>

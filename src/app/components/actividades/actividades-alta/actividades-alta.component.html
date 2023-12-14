@@ -1,0 +1,272 @@
+<main class="container border mt-2">
+  <h2 class="text-center mt-2">{{titulo}}</h2>
+  <form [formGroup]="alta">
+
+    <div class="row mb-1 mt-1 form-group">
+      <!-- Actividad -->
+      <label class="col-1 col-form-label" for="actividad">Actividad<span class="importante">*</span></label>
+      <div class="col-3">
+        <input type="text" id="actividad" class="form-control" formControlName="actividad" placeholder="Actividad"/>
+        <div [hidden]="actividad.valid || actividad.pristine">
+          <span *ngIf="actividad.errors?.['required']">el nombre de la actividad es obligatorio</span>
+        </div>
+      </div>
+      <!-- Tarifa -->
+        <label class="col-2 col-form-label" for="tarifa">Tarifa / hora<span class="importante">*</span></label>
+        <div class="col-2">
+          <input type="number" id="tarifa" class="form-control numeros" formControlName="tarifa" placeholder="Tarifa"/>
+          <span [hidden]="tarifa.valid || tarifa.pristine">
+            <span *ngIf="tarifa.errors?.['required']">La tarifa es obligatorio</span>
+          </span>
+        </div>
+        <!-- IVA -->
+          <label class="col-1 col-form-label" for="iva">IVA</label>
+          <div class="col-3">
+          <select class="form-select form-select-m mb-1" id="iva" name="iva" formControlName="iva">
+            <!--Relleno el select con los tipos de IVA-->
+            <ng-container *ngFor="let datos of ivas">
+            <option [value]="datos.id">{{ datos.nombre }}&nbsp;{{datos.tipo}}</option>
+          </ng-container>
+          </select>
+        </div>
+    </div>
+
+    <div class="row mb-1 mt-1 form-group">
+      <!-- Descripción -->
+      <div class="col-10">
+        <label class="col-1 col-form-label" for="descripcion">Descripción</label>
+        <textarea rows="5" cols="150" id="descripcion" class="form-control" formControlName="descripcion"></textarea>
+      </div>
+    </div>
+
+    <div class="row mb-1 mt-1 form-group">
+      <!--Personas-->
+      <label class="col-1 col-form-label" for="personas">Personas</label>
+      <div class="col-2">
+        <input type="number" id="personas" class="form-control numeros" formControlName="personas" placeholder="Personas"/>
+      </div>
+      <!-- Duración -->
+      <label class="col-1 col-form-label" for="duracion">duración</label>
+      <div class="col-2">
+        <input type="number" id="duracion" class="form-control numeros" formControlName="duracion" placeholder="Duración"/>
+      </div>
+      <!-- Foto -->
+      <label class="col-1 col-form-label" for="foto">Foto</label>
+      <div class="col-3">
+        <input type="file" id="foto" name="foto" class="form-control" (change)="subirFoto($event)"/>
+      </div>
+      <!--Previsualización-->
+      <div class="col-2" *ngIf="previsualizacion">
+        <img #imagenPrevisualizacion [src]="previsualizacion" alt="Imagen de previsualización" height="75px" width="75px"/>
+      </div>
+    </div>
+
+    <div class="row mb-1 mt-1 form-group">
+      <!-- Gestor -->
+      <div class="col-3">
+        <label class="col-1 col-form-label" for="gestor">Gestor</label>
+        <select class="form-select form-select-m mb-1" id="gestor" name="iva" formControlName="gestor">
+          <!--Relleno el select con los Gestores-->
+          <ng-container *ngFor="let datos of gestors">
+          <option [value]="datos.id">{{ datos.nombre }}</option>
+        </ng-container>
+        </select>
+      </div>
+      <!-- Tipos de actividad-->
+      <div class="col-4">
+        <label class="col-4 col-form-label" for="tipos">Tipo de actividad</label>
+        <select class="form-select form-select-m mb-1" id="tipos" name="tipos" formControlName="tipo">
+          <!--Relleno el select con los Tipos de Actividad-->
+          <ng-container *ngFor="let datos of tipos">
+          <option [value]="datos.id">{{ datos.tipo }}</option>
+        </ng-container>
+        </select>
+      </div>
+      <div class="col-4">
+        <!--horas de inicio y fin-->
+        <label class="col-4 col-form-label" for="inicio">Hora inicio</label>
+        <div class="col-4">
+          <input type="time" id="inicio" class="form-control" formControlName="inicio" placeholder="Hora de inicio" (blur)="horas()"/>
+        </div>
+        <label class="col-4 col-form-label" for="fin">Hora fin</label>
+        <div class="col-4">
+          <input type="time" id="fin" class="form-control" formControlName="fin" placeholder="Hora de fin" (blur)="horas()"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-1 mt-1 form-group">
+      <div class="col-4">
+        <!--Trabajadores-->
+        <ng-container *ngIf="trabajadores.length>0">
+          <div class="row mb-1">
+            <label class="col-3 col-form-label" for="trabajador">Trabajadores</label>
+            <div class="col-3">
+              <button type="submit" class="btn btn-outline-success" (click)="addTrabajador()">+</button>
+            </div>
+            <div class="row">
+              <div class="col-10">
+                <select id="trabajador" class="form-select form-select-m mb-1" formControlName="trabajador">
+                  <!--Si hay trabajadores, recorro el array-->
+                  <ng-container *ngFor="let datos of trabajadores">
+                    <!--For each-->
+                    <option [value]="datos.id">{{datos.nombre}}</option>
+                  </ng-container>
+                </select>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <!--Tabla de trabajadores-->
+        <div class="table-responsive">
+          <table class="table table-striped table-sm table-wrapper">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th colspan="2">Apellidos</th>
+                <th>NIF</th>
+                <th class="text-center">Quitar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="tablaTrab.length>0">
+                <ng-container *ngFor="let trab_ac of tablaTrab">
+                  <tr>
+                    <td hidden="true">{{trab_ac.id}}</td>
+                    <td>{{trab_ac.nombre}}</td>
+                    <td>{{trab_ac.apellido1}}</td>
+                    <td>{{trab_ac.apellido2}}</td>
+                    <td>{{trab_ac.nif}}</td>
+                    <td><a class="btn btn-sm btn-outline-danger"
+                      data-toggle="tooltip" data-placement="top" title="Quita el trabajador" (click)="borrarTrab(trab_ac.list)">Quitar
+                      </a></td>
+                </tr>
+              </ng-container>
+            </ng-container>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <!--Materiales-->
+        <ng-container *ngIf="materiales.length>0">
+          <div class="row mb-1">
+            <label class="col-3 col-form-label" for="material">Materiales</label>
+            <div class="col-3">
+              <button type="submit" class="btn btn-outline-success" (click)="addMaterial()">+</button>
+            </div>
+            <div class="row">
+              <div class="col-10">
+                <select id="material" class="form-select form-select-m mb-1" formControlName="material">
+                  <!--Si hay materiales, recorro el array-->
+                  <ng-container *ngFor="let datos of materiales">
+                    <!--For each-->
+                    <option [value]="datos.id">{{datos.nombre}}</option>
+                  </ng-container>
+                </select>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <!--Tabla de materiales-->
+        <div class="table-responsive">
+          <table class="table table-striped table-sm table-wrapper">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th class="text-center">Quitar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="tablaMat.length>0">
+                <ng-container *ngFor="let mat_ac of tablaMat">
+                  <tr>
+                    <td hidden="true">{{mat_ac.id}}</td>
+                    <td>{{mat_ac.nombre}}</td>
+                    <td><a class="btn btn-sm btn-outline-danger"
+                      data-toggle="tooltip" data-placement="top" title="Quita el material" (click)="borrarMat(mat_ac.list)">Quitar
+                      </a></td>
+                </tr>
+              </ng-container>
+            </ng-container>
+          </tbody>
+        </table>
+        </div>
+      </div>
+      <div class="col-4">
+        <!--Ubicaciones-->
+        <ng-container *ngIf="ubicaciones.length>0">
+          <div class="row mb-1">
+            <label class="col-3 col-form-label" for="ubicacion">Ubicaciones</label>
+            <div class="col-3">
+              <button type="submit" class="btn btn-outline-success" (click)="addUbicacion()">+</button>
+            </div>
+            <div class="row">
+              <div class="col-10">
+                <select id="ubicacion" class="form-select form-select-m mb-1" formControlName="ubicacion">
+                  <!--Si hay ubicaciones, recorro el array-->
+                  <ng-container *ngFor="let datos of ubicaciones">
+                    <!--For each-->
+                    <option [value]="datos.id">{{datos.nombre}}</option>
+                  </ng-container>
+                </select>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <!--Tabla de ubicaciones-->
+        <div class="table-responsive">
+          <table class="table table-striped table-sm table-wrapper">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Latitud</th>
+                <th>Longitud</th>
+                <th class="text-center">Quitar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="tablaTrab.length>0">
+                <ng-container *ngFor="let ubi_ac of tablaUbi">
+                  <tr>
+                    <td hidden="true">{{ubi_ac.id}}</td>
+                    <td>{{ubi_ac.nombre}}</td>
+                    <td class="numeros">{{ubi_ac.lat}}</td>
+                    <td class="numeros">{{ubi_ac.lon}}</td>
+                    <td><a class="btn btn-sm btn-outline-danger"
+                      data-toggle="tooltip" data-placement="top" title="Quita el trabajador" (click)="borrarUbi(ubi_ac.list)">Quitar
+                      </a></td>
+                </tr>
+              </ng-container>
+            </ng-container>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6 text-primary">{{error}}</div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">Los campos marcados con&nbsp;<span class="importante">*</span>&nbsp;son obligatorios</div>
+    </div>
+
+    <div class="row justify-content-center mb-2">
+      <div class="col-2 ml-2">
+      <!-- Botón guardar-->
+        <button type="button" class="btn btn-outline-success" (click)="guardar()" [disabled]="alta.invalid">
+          Guardar</button>
+      </div>
+      <div class="col-2 ml-2">
+        <!-- Botón cancelar -->
+        <button type="button" class="btn btn-outline-warning" (click)="cerrar()">Cerrar</button>
+      </div>
+    </div>
+  </form>
+</main>

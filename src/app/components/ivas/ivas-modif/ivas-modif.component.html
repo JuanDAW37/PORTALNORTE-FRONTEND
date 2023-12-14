@@ -1,0 +1,40 @@
+<main class="form w-50 m-auto border">
+  <h3 class="text-center">{{this.titulo}}</h3>
+  <form [formGroup]="formIva" (submit)="guardar()">
+    <!-- Nombre -->
+    <div class="row m-5">
+      <label class="col-2 col-form-label" for="nombre">Nombre<span class="importante">*</span></label>
+      <div class="col-4">
+        <input type="text" id="nombre" formControlName="nombre" class="form-control" placeholder="Nombre"/>
+        <span [hidden]="nombre.valid || nombre.pristine">
+          <span *ngIf="nombre.errors?.['required']">El nombre es obligatorio</span>
+          </span>
+      </div>
+      <!--Porcentaje-->
+      <label class="col-2 col-form-label" for="porcentaje">Por. %<span class="importante">*</span></label>
+      <div class="col-2">
+        <input type="number" id="porcentaje" formControlName="tipo" value="{{tipo}}" class="form-control numeros" placeholder="Porcentaje %"/>
+        <span [hidden]="tipo.valid">
+          <span *ngIf="tipo.errors?.['required']">El tipo de IVA es obligatorio</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="row m-4">
+      <div class="col-6">Los campos marcados con&nbsp;<span class="importante">*</span>&nbsp;son obligatorios</div>
+    </div>
+
+    <!-- Botones guardar y cerrar-->
+    <div class="row justify-content-center mb-2">
+      <div class="col-2 ml-2">
+        <button type="button" class="btn btn-outline-success" (click)="guardar()" [disabled]="formIva.invalid || this.service.estado">Guardar</button>
+      </div>
+      <div class="col-2 ml-2">
+        <button type="button" class="btn btn-outline-warning" (click)="cerrar()">Cerrar</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 text-primary">{{mensaje}}</div>
+    </div>
+  </form>
+</main>

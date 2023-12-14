@@ -1,0 +1,85 @@
+<main class="container border mt-2">
+  <h2 class="text-center mt-2">{{tit}}</h2>
+  <form [formGroup]="ModifForm">
+    <div class="row mb-3 mt-3 form-group">
+      <!--Título -->
+      <label class="col-1 col-form-label" for="titulo">Titulo<span class="importante">*</span></label>
+      <div class="col-6">
+        <input type="text" id="titulo" class="form-control" formControlName="titulo" placeholder="Título"/>
+        <div [hidden]="titulo.valid || titulo.pristine">
+          <span *ngIf="titulo.errors?.['required']">El título es obligatorio</span>
+        </div>
+      </div>
+      <!-- Importe -->
+      <label class="col-1 col-form-label" for="importe">Importe</label>
+      <div class="col-2">
+        <input type="number" id="importe" formControlName="importe" class="form-control numeros"/>
+      </div>
+    </div>
+
+    <div class="row mb-3 mt-3 form-group">
+      <!--Gestores-->
+      <div class="col-3">
+        <label class=" col-1 col-form-label" for="gestor">Gestor<span class="importante">*</span></label>
+        <select id="gestor" class="form-select" formControlName="gestor">
+          <!--Recorro el array de gestors-->
+          <ng-container *ngFor="let datos of gestors">
+            <!--For each-->
+            <option [value]="datos.id">{{datos.nombre}}</option>
+          </ng-container>
+        </select>
+        <div [hidden]="gestor.valid || gestor.pristine">
+          <span *ngIf="gestor.errors?.['required']">Debe escoger un gestor</span>
+        </div>
+      </div>
+      <!--Empresas-->
+        <div class="col-3">
+          <label class="col-1 col-form-label" for="empresa">Empresa<span class="importante">*</span></label>
+          <select id="empresa" class="form-select form-select-m mb-3" formControlName="empresa">
+            <!--Recorro el array de empresas-->
+            <ng-container *ngFor="let datos of empresas">
+              <!--For each-->
+              <option [value]="datos.id">{{datos.nombre}}</option>
+            </ng-container>
+          </select>
+          <div [hidden]="empresa.valid || empresa.pristine">
+          <span *ngIf="empresa.errors?.['required']">Debe escoger una empresa</span>
+        </div>
+        </div>
+      </div>
+
+    <div class="row mb-3 mt-3 form-group">
+      <!-- Imagen -->
+      <label class="col-1 col-form-label" for="imagen">Imagen</label>
+      <div class="col-4">
+        <input type="file" id="foto" name="foto" class="form-control" (change)="subirFoto($event)"/>
+      </div>
+    </div>
+
+    <div class="row mb-3 mt-3 form-group">
+      <!--Previsualización-->
+      <div class="col-6" *ngIf="previsualizacion">
+        <img #imagenPrevisualizacion [src]="previsualizacion" alt="Imagen de previsualización" height="100px" width="100px"/>
+      </div>
+    </div>
+
+    <div class="row m-4">
+      <div class="col-6">Los campos marcados con&nbsp;<span class="importante">*</span>&nbsp;son obligatorios</div>
+    </div>
+
+    <div class="row justify-content-center mb-2">
+      <div class="col-2 ml-2">
+      <!-- Botón guardar-->
+        <button type="button" class="btn btn-outline-success" (click)="guardar()" [disabled]="ModifForm.invalid || this.publi_servicio.estado">
+          Guardar</button>
+      </div>
+      <div class="col-2 ml-2">
+        <!-- Botón cancelar -->
+        <button type="button" class="btn btn-outline-warning" (click)="cerrar()">Cerrar</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 text-primary">{{mensaje}}</div>
+    </div>
+  </form>
+</main>

@@ -1,0 +1,93 @@
+<main class="container border mt-2">
+  <h2 class="text-center mt-2">{{titulo}}</h2>
+  <form [formGroup]="crear">
+
+    <div class="row mb-3 mt-3 form-group">
+      <!-- Nombre -->
+      <label class="col-1 col-form-label" for="nombre">Nombre<span class="importante">*</span></label>
+      <div class="col-4">
+        <input type="text" id="nombre" class="form-control" formControlName="nombre" placeholder="Nombre"/>
+        <div [hidden]="nombre.valid || nombre.pristine">
+          <span *ngIf="nombre.errors?.['required']">El nombre es obligatorio</span>
+        </div>
+      </div>
+      <!-- NIF -->
+        <label class="col-1 col-form-label" for="nif">NIF<span class="importante">*</span></label>
+        <div class="col-4">
+          <input type="text" id="nif" class="form-control" formControlName="nif" placeholder="NIF"/>
+          <span [hidden]="nif.valid || nif.pristine">
+            <span *ngIf="nif.errors?.['required']">El nif es obligatorio</span>
+          </span>
+        </div>
+    </div>
+
+    <div class="row mb-3 mt-3 form-group">
+      <!-- Apellido1 -->
+      <label class="col-1 col-form-label" for="apellido1">Apellido<span class="importante">*</span></label>
+      <div class="col-4">
+        <input type="text" id="apellido1" class="form-control" formControlName="apellido1" placeholder="Apellido"/>
+        <div [hidden]="apellido1.valid || apellido1.pristine">
+          <span *ngIf="apellido1.errors?.['required']">El apellido es obligatorio</span>
+        </div>
+      </div>
+      <!-- Apellido2 -->
+        <label class="col-1 col-form-label" for="apellido2">Apellido</label>
+        <div class="col-4">
+          <input type="text" id="apellido2" class="form-control" formControlName="apellido2" placeholder="Apellido"/>
+        </div>
+    </div>
+
+
+    <div class="row mb-3 mt-3 form-group">
+      <!-- Usuario -->
+      <label class="col-1 col-form-label" for="user">Usuario<span class="importante">*</span></label>
+      <div class="col-2">
+        <input type="text" id="usuario" class="form-control" formControlName="user" placeholder="Usuario"/>
+        <span [hidden]="user.valid || user.pristine">
+            <span *ngIf="user.errors?.['required']">El Usuario es obligatorio</span>
+        </span>
+      </div>
+
+      <!-- Contraseña -->
+      <label class="col-1 col-form-label" for="password">Contraseña<span class="importante">*</span></label>
+      <div class="col-2">
+        <input type="password" id="paswword" class="form-control" formControlName="password" placeholder="Password"/>
+        <span [hidden]="password.valid || password.pristine">
+            <span *ngIf="password.errors?.['required']">La constraseña es obligatoria</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="row mb-3 mt-3 form-group">
+      <!-- Contrato -->
+      <label class="col-1 col-form-label" for="contrato">contrato<span class="importante">*</span></label>
+      <div class="col-4">
+        <input type="text" id="contrato" class="form-control" formControlName="contrato" placeholder="Contrato"/>
+        <span [hidden]="contrato.valid || contrato.pristine">
+            <span *ngIf="contrato.errors?.['required']">El contrato es obligatorio</span>
+        </span>
+      </div>
+
+      <!-- Sueldo -->
+      <label class="col-1 col-form-label" for="contrato">sueldo<span class="importante">*</span></label>
+      <div class="col-1">
+        <input type="number" id="sueldo" class="form-control numeros" formControlName="sueldo" placeholder="Sueldo"/>
+        <span [hidden]="sueldo.valid || sueldo.pristine">
+            <span *ngIf="sueldo.errors?.['required']">El sueldo es obligatorio</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">Los campos marcados con&nbsp;<span class="importante">*</span>&nbsp;son obligatorios</div>
+    </div>
+
+    <div class="row justify-content-center mb-2">
+      <div class="col-2 ml-2">
+      <!-- Botón guardar-->
+        <button type="button" class="btn btn-outline-success" (click)="guardar()" [disabled]="crear.invalid">
+          Guardar</button>
+      </div>
+    </div>
+  </form>
+</main>

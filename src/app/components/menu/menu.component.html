@@ -1,0 +1,62 @@
+<div class="container-fluid">
+  <div class="row">
+  <!--Vemos el menú-->
+<nav class="nav col-md-1 d-md-block bg-light border rounded border-secondary rounded m-2">
+<div class="sidebar-sticky">
+<header class="bd-header cabeceramenu py-3 d-flex align-items-stretch border border-info">
+    <div class="container-fluid d-flex align-items-center">
+        <h1 class="d-flex align-items-center fs-4 text-white mb-0">
+        <img src="../assets/file-person.svg" alt="Usuario"/>&nbsp;{{ usuario | titlecase}}
+        </h1>
+    </div>
+</header>
+    <ul class="nav flex-column">
+        <li class="nav-item border">
+            <button class="list-group-item list-group-item-action py-2 opciones letramenu" data-toggle="tooltip" data-placement="top" (click)="logout()" title="Cerrar sesión"><img src="../assets/box-arrow-right.svg" alt="Salir"/>&nbsp;Cerrar</button>
+        </li>
+        <li class="nav-item border">
+            <a class="list-group-item list-group-item-action py-2 ripple opciones letramenu" routerLink="empresa" routerLinkActive="active" data-toggle="tooltip" data-placement="top" title="Empresa"><img src="../assets/building-fill.svg" alt="Empresa"/>&nbsp;Empresa</a>
+        </li>
+        <li class="nav-item border">
+            <a class="list-group-item list-group-item-action py-2 ripple opciones letramenu" routerLink="gestor" routerLinkActive="active" data-toggle="tooltip" data-placement="top" title="Gestor"><img src="../assets/person-workspace.svg" alt="Gestor"/>&nbsp;Gestor</a>
+        </li>
+        <li class="nav-item border">
+            <a class="list-group-item list-group-item-action py-2 ripple opciones letramenu" routerLink="actividades" routerLinkActive="active" data-toggle="tooltip" data-placement="top" title="Actividades"><img src="../assets/bicycle.svg" alt="Actividades"/>&nbsp;Actividades</a>
+        </li>
+        <li class="nav-item border">
+            <a class="list-group-item list-group-item-action py-2 ripple opciones letramenu" routerLink="tipos" routerLinkActive="active" data-toggle="tooltip" data-placement="top" title="Tipos de actividad"><img src="../assets/globe-europe-africa.svg" alt="Tipos de actividad"/>&nbsp;Tipos Act.</a>
+        </li>
+        <li class="nav-item border">
+            <a class="list-group-item list-group-item-action py-2 ripple opciones letramenu" routerLink="materiales" routerLinkActive="active" data-toggle="tooltip" data-placement="top" title="Materiales"><img src="../assets/bricks.svg" alt="Material"/>&nbsp;Material</a>
+        </li>
+        <li class="nav-item border">
+            <a class="list-group-item list-group-item-action py-2 ripple opciones letramenu" routerLink="ubicaciones" routerLinkActive="active" data-toggle="tooltip" data-placement="top" title="Ubicaciones"><img src="../assets/cloud-sun-fill.svg" alt="Ubicaciones"/>&nbsp;Ubicaciones</a>
+        </li>
+        <li class="nav-item border">
+            <a class="list-group-item list-group-item-action py-2 ripple opciones letramenu" routerLink="ivas" routerLinkActive="active" data-toggle="tooltip" data-placement="top" title="IVA"><img src="../assets/currency-euro.svg" alt="IVA"/>&nbsp;IVA</a>
+        </li>
+        <li class="nav-item border">
+            <a class="list-group-item list-group-item-action py-2 ripple opciones letramenu" routerLink="guias" routerLinkActive="active" data-toggle="tooltip" data-placement="top" title="Personal"><img src="../assets/person-standing.svg" alt="Personal"/>&nbsp;Personal</a>
+        </li>
+        <li class="nav-item border">
+            <a class="list-group-item list-group-item-action py-2 ripple opciones letramenu" routerLink="reservas" routerLinkActive="active" data-toggle="tooltip" data-placement="top" title="Reservas"><img src="../assets/calendar-check.svg" alt="Reservas"/>&nbsp;Reservas</a>
+        </li>
+        <li class="nav-item border">
+            <a class="list-group-item list-group-item-action py-2 ripple opciones letramenu" routerLink="facturas" routerLinkActive="active" data-toggle="tooltip" data-placement="top" title="Facturas"><img src="../assets/ticket-detailed-fill.svg" alt="Facturas"/>&nbsp;Facturas</a>
+        </li>
+        <li class="nav-item border">
+            <a class="list-group-item list-group-item-action py-2 ripple opciones letramenu" routerLink="clientes" routerLinkActive="active"data-toggle="tooltip" data-placement="top" title="Clientes"><img src="../assets/person-walking.svg" alt="Clientes"/>&nbsp;Clientes</a>
+        </li>
+        <li class="nav-item border">
+            <a class="list-group-item list-group-item-action py-2 ripple opciones letramenu" routerLink="publicidad" routerLinkActive="active" data-toggle="tooltip" data-placement="top" title="Anuncios"><img src="../assets/newspaper.svg" alt="Publicidad"/>&nbsp;Publicidad</a>
+        </li>
+    </ul>
+</div>
+</nav>
+<!--Vemos el título-->
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+<router-outlet></router-outlet>
+</main>
+</div>
+
+</div>

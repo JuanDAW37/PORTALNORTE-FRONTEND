@@ -1,0 +1,84 @@
+<main class="container border mt-2">
+<h2 class="text-center">{{ titulo }}</h2>
+  <form [formGroup]="formAlta">
+
+    <div class="row mb-3 mt-3">
+      <!-- Nombre del material -->
+      <label class="col-2 col-form-label" for="nombre">Nombre del material<span class="importante">*</span></label>
+      <div class="col-11">
+        <input type="text" id="nombre" formControlName="nombre" class="form-control" placeholder="Nombre"/>
+          <div class="alert alert-danger mt-2" [hidden]="nombre.valid || nombre.pristine">
+            <span *ngIf="nombre.errors?.['required']">El nombre es obligatorio</span>
+          </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!--Actividades-->
+    <ng-container *ngIf="actividades.length>0">
+      <div class="row mb-3">
+        <label class="col-1 col-form-label" for="tipo">Actividades</label>
+        <div class="col-1">
+          <button type="submit" class="btn btn-outline-success" (click)="addActi()">+</button>
+        </div>
+        <div class="col-3">
+          <select id="tipo" class="form-select form-select-m mb-3" formControlName="activ">
+            <!--Si hay actividades, recorro el array-->
+            <ng-container *ngFor="let datos of actividades">
+              <!--For each-->
+              <option [value]="datos.id">{{datos.actividad}}</option>
+            </ng-container>
+          </select>
+        </div>
+      </div>
+    </ng-container>
+
+    <!--Tabla de actividades-->
+    <div class="table-responsive">
+      <table class="table table-striped table-sm table-wrapper">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Tarifa</th>
+            <th>Duración</th>
+            <th class="text-center">Quitar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="tablaActi.length>0">
+            <ng-container *ngFor="let mat_ac of tablaActi">
+              <tr>
+                <td hidden="true">{{mat_ac.id}}</td>
+                <td>{{mat_ac.actividad}}</td>
+                <td>{{mat_ac.tarifa | currency:'EUR':'symbol':'1.2-2'}}</td>
+                <td>{{mat_ac.duracion}}</td>
+                <td><a class="btn btn-sm btn-outline-danger"
+                  data-toggle="tooltip" data-placement="top" title="Quita la actividad" (click)="borrarActi(mat_ac.list)">Quitar
+                  </a></td>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row">
+      <div class="col-6">Los campos marcados con&nbsp;<span class="importante">*</span>&nbsp;son obligatorios</div>
+    </div>
+    <!--Botones para guardar y cancelar-->
+    <div class="row mb-2 justify-content-center">
+      <!-- Botón guardar-->
+      <div class="col-2 ml-2">
+        <button type="button" class="btn btn-outline-success" (click)="guardar()" [disabled]="formAlta.invalid">
+          Guardar</button>
+      </div>
+      <!-- Botón cancelar -->
+      <div class="col-2 ml-2">
+        <button type="button" class="btn btn-outline-warning" (click)="cerrar()">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </form>
+</main>

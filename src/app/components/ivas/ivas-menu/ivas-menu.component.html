@@ -1,0 +1,56 @@
+<app-espere *ngIf="!this.consulta; else listo"></app-espere>
+<ng-template #listo>
+<!--Título-->
+<h1 class="h2 text-secondary text-center">{{ title }}</h1>
+
+<!--Botón de alta-->
+<div class="d-flex justify-content-end flex-direction-column btn-toolbar mb-2 mb-md-0">
+  <div class="btn-group mr-2">
+    <a class="btn btn-sm btn-outline-primary" routerLink="alta" routerLinkActive="active"
+      data-toggle="tooltip" data-placement="top" title="Crea un tipo de IVA">Nuevo
+    </a>
+</div>
+</div>
+<nav class="navbar navbar-dark cabeceramenu">
+  <div class="container-fluid">
+  </div>
+</nav>
+<!--Vemos el listado-->
+<div class="table-responsive mt-3">
+<pagination-controls class="text-center" (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+<table class="table table-striped table-sm">
+<thead class="text-center">
+<tr>
+  <th>Descripción</th>
+  <th>% IVA</th>
+  <th colspan="3"
+    data-toggle="tooltip" data-placement="top" title="Modificación, consulta y borrado">Operaciones
+  </th>
+</tr>
+</thead>
+<tbody>
+<tr *ngFor="let datos of iva | paginate: { itemsPerPage: 10, currentPage: page }">
+  <td class="mt-3 mb-3 ml-200" hidden="true">{{ datos.id }}</td>
+  <td class="mt-3 mb-3 ml-200">{{ datos.nombre }}</td>
+  <td class="mt-3 mb-3 ml-200 numeros">{{ (datos.tipo/100) | percent :'1.2-2' }}</td>
+  <td class="mt-3 mb-3 ml-200">
+    <a class="btn btn-sm btn-outline-success" [routerLink]="['modif',datos.id]" routerLinkActive="active" (click)="this.servicio.activa()"
+      data-toggle="tooltip" data-placement="top" title="entra a la ficha Modificar IVA">Modificar
+    </a>
+  </td>
+  <td class="mt-3 mb-3 ml-200">
+    <a class="btn btn-sm btn-outline-info" [routerLink]="['modif',datos.id]" routerLinkActive="active" (click)="this.servicio.desactiva()"
+      data-toggle="tooltip" data-placement="top" title="entra a la ficha Consultar IVA">Consultar
+    </a>
+  </td>
+  <td class="mt-3 mb-3 ml-200">
+    <a class="btn btn-sm btn-outline-danger"
+      data-toggle="tooltip" data-placement="top" title="Elimina el tipo de IVA" [routerLink]="['baja',datos.id]" routerLinkActive="active">Borrar
+    </a>
+  </td>
+</tr>
+</tbody>
+</table>
+</div>
+<router-outlet></router-outlet>
+</ng-template>

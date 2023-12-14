@@ -1,0 +1,20 @@
+.map-wrap {
+  display: flex;
+  align-content: center;
+  margin-top: 10px;
+  width: 100%;
+  height: calc(70vh - 77px); /* calculate height of the screen minus the heading */
+}
+
+.map {
+  position: absolute;
+  width: 75%;
+  height: 50%;
+}
+
+.watermark {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 999;
+}

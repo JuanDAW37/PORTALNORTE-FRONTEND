@@ -1,0 +1,16 @@
+<div class="container d-flex justify-content-center w-50 mt-5">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title">
+        <h5>{{ this.titulo }}</h5>
+      </div>
+      <div class="card-text">
+        <p>¿Desea borrar el Tipo de Actividad?</p>
+      </div>
+      <div class="m-2 text-danger">{{this.error}}</div>
+      <div class="card-footer d-flex justify-content-end">
+        <button type="button" class="btn btn-sm btn-outline-success" data-dismiss="modal" (click)="salir()">Salir</button>
+        <button type="button" class="btn btn-sm btn-outline-danger" (click)="borrar(this.id)">Borrar</button>
+      </div>
+    </div>
+</div>

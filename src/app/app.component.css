@@ -1,0 +1,35 @@
+.opciones:hover {
+  background-color: cornsilk;
+  color: rgb(255, 0, 0);
+}
+
+.active {
+  background-color: cornsilk;
+  color: red;
+}
+
+.cabeceramenu {
+  background-color: #3498DB;
+}
+
+.imagen {
+  animation: zoom 5s
+}
+
+.numeros {
+  text-align: right;
+}
+
+@keyframes zoom {
+  0% {
+    transform: scale(0.5);
+  }
+
+  50% {
+    transform: scale(0.75);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}

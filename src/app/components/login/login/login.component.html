@@ -1,0 +1,41 @@
+<main class="container-md justify-content-center mt-4 d-flex form-signin rounded">
+<div class="row">
+  <div class="col-md-4">
+    <img src="../../../../assets/login.png">
+  </div>
+  <div class="col-md-3">
+    <form [formGroup]="login">
+      <div><h3 class="text-center text-white">Web coporativa PortalNorte</h3></div>
+      <div>
+        <!-- Usuario -->
+        <label class="col-1 col-form-label text-white" for="user">Usuario<span class="importante">*</span></label>
+        <div class="form-outline mb-2">
+          <input type="text" id="user" class="form-control" formControlName="usuario"/>
+          <span class="alert mt-2 text-white" [hidden]="usuario.valid || usuario.pristine">
+            <span *ngIf="usuario.errors?.['required']">El usuario es obligatorio</span>
+          </span>
+        </div>
+
+        <!-- Password -->
+        <label class="col-1 col-form-label text-white" for="password">Password<span class="importante">*</span></label>
+        <div class="form-outline mb-2">
+          <input type="password" id="password" class="form-control" formControlName="password"/>
+          <span class="alert mt-2 text-white" [hidden]="password.valid || password.pristine">
+            <span *ngIf="password.errors?.['required']">La contraseña es obligatoria</span>
+          </span>
+        </div>
+
+        <!-- Botón -->
+        <div class="text-center">
+          <button type="button" class="btn btn-primary btn-block mb-1" [disabled]="login.invalid" (click)="entrar()">Entrar</button>
+        </div>
+      </div>
+      <div class="row">
+        <span class="col-12 text-white">{{error}}</span>
+        <span class="col-12 text-white"><span class="importante">*</span>campos obligatorios</span>
+      </div>
+    </form>
+    </div>
+    </div>
+</main>
+<app-crear-gestor *ngIf="!this.login_service.alta"></app-crear-gestor>

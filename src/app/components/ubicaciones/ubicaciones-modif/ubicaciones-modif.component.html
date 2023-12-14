@@ -1,0 +1,109 @@
+<main class="container border mt-2">
+  <h2 class="text-center">{{titulo}}</h2>
+  <form [formGroup]="formModUb">
+
+    <div class="row mb-3 mt-3">
+      <!-- Ubicación -->
+      <label class="col-1 col-form-label" for="nombre">Ubicación<span class="importante">*</span></label>
+      <div class="col-11">
+        <input type="text" id="nombre" formControlName="nombre" class="form-control" placeholder="Ubicación"/>
+        <span [hidden]="nombre.valid || nombre.pristine">
+          <span *ngIf="nombre.errors?.['required']">El nombre es obligatorio</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="row mb-3 justify-content-center">
+      <!-- Latitud -->
+      <label class="col-2 col-form-label" for="lat">Latitud<span class="importante">*</span></label>
+      <div class="col-2">
+        <input type="number" id="lat" formControlName="lat" class="form-control numeros" placeholder="Latitud"/>
+        <span [hidden]="lat.valid">
+          <span *ngIf="lat.errors?.['required']">La latitud es obligatoria</span>
+        </span>
+      </div>
+      <!-- Longitud -->
+      <label class="col-2 col-form-label" for="lon">Longitud<span class="importante">*</span></label>
+      <div class="col-2">
+        <input type="number" id="lon" formControlName="lon" class="form-control numeros" placeholder="Longitud"/>
+        <span [hidden]="lon.valid">
+          <span *ngIf="lon.errors?.['required']">La longitud es obligatoria</span>
+        </span>
+      </div>
+      <div class="col-2">
+        <button class="btn btn-sm btn-outline-info"(click)="verMapa()">{{mapa}}</button>
+      </div>
+    </div>
+
+    <!--Actividades-->
+    <ng-container *ngIf="actividades.length>0">
+      <div class="row mb-3">
+        <label class="col-1 col-form-label" for="tipo">Actividades</label>
+        <div class="col-1">
+          <button type="submit" class="btn btn-outline-success" [disabled]="this.service.estado"
+          (click)="addActi()">+</button>
+        </div>
+        <div class="col-3">
+          <select id="tipo" class="form-select form-select-m mb-3" formControlName="activ">
+            <!--Si hay actividades, recorro el array-->
+            <ng-container *ngFor="let datos of actividades">
+              <!--For each-->
+              <option [value]="datos.id">{{datos.actividad}}</option>
+            </ng-container>
+          </select>
+        </div>
+      </div>
+    </ng-container>
+
+    <!--Tabla de actividades-->
+    <div class="table-responsive">
+      <table class="table table-striped table-sm table-wrapper">
+        <thead>
+          <tr>
+            <th class="text-center">Nombre</th>
+            <th class="text-center">Tarifa</th>
+            <th class="text-center">Duración</th>
+            <th>Quitar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Si hay actividades para esta Ubicación, las muestro -->
+          <ng-container *ngIf="tablaActi.length>0">
+            <ng-container *ngFor="let ubiac of tablaActi; let i = index;">
+              <tr>
+                <td hidden="true">{{ubiac.id}}</td>
+                <td>{{ubiac.actividad}}</td>
+                <td>{{ubiac.tarifa}}</td>
+                <td>{{ubiac.duracion}}</td>
+                <td><a class="btn btn-sm btn-outline-danger"
+                  data-toggle="tooltip" data-placement="top" title="Quita la actividad"
+                  (click)="borrarActi(i)">Quitar</a></td>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row">
+      <div class="col-6">Los campos marcados con&nbsp;<span class="importante">*</span>&nbsp;son obligatorios</div>
+    </div>
+
+    <!-- Botón guardar, estará activo si los datos son válidos-->
+    <div class="row mb-2 justify-content-center">
+      <!-- Botón guardar-->
+      <div class="col-2 mb-2">
+        <button type="button" class="btn btn-outline-success" (click)="guardar()" [disabled]="formModUb.invalid || this.service.estado">
+          Guardar</button>
+      </div>
+      <!-- Botón cancelar -->
+      <div class="col-2 mb-2">
+        <button type="button" class="btn btn-outline-warning" (click)="cerrar()">Cerrar</button>
+      </div>
+    </div>
+  </form>
+  <div class="row">
+    <div class="col-6 text-primary">{{mensaje}}</div>
+  </div>
+</main>
+<app-map *ngIf="this.cargaMapa">{{this.cargaMapa}}</app-map>

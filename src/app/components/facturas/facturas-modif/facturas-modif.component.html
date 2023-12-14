@@ -1,0 +1,138 @@
+<main class="container border mt-2">
+  <h2 class="text-center mt-2">{{titulo}}</h2>
+  <form [formGroup]="modif">
+    <div class="row mb-1 mt-1 form-group">
+      <!-- Número -->
+      <label class="col-2 col-form-label" for="numero">Número de factura</label>
+      <div class="col-3">
+        <input type="text" id="numero" class="form-control numeros" formControlName="numero" />
+      </div>
+      <!-- Fecha -->
+      <label class="col-1 col-form-label" for="fecha">Fecha</label>
+      <div class="col-3">
+        <input type="text" id="fecha" class="form-control" formControlName="fecha" />
+      </div>
+    </div>
+
+    <div class="row mb-1 mt-1 form-group">
+      <!-- Clientes -->
+      <label class="col-1 col-form-label" for="clientes">Clientes<span class="importante">*</span></label>
+      <div class="col-3">
+        <select class="form-select form-select-m mb-1" id="clientes" (click)="cogeCli()"
+        formControlName="cliente" name="clientes">
+        <!--Si hay clientes, recorro el array-->
+        <ng-container *ngFor="let datos of clientes">
+          <!--For each-->
+          <option [value]="datos.id">{{datos.nombre}}&nbsp;{{datos.apellido1}}</option>
+          </ng-container>
+        </select>
+        <div [hidden]="cliente.valid || cliente.pristine">
+          <span *ngIf="cliente.errors?.['required']">Se debe seleccionar un cliente</span>
+        </div>
+      </div>
+
+      <!-- Cliente -->
+      <label class="col-1 col-form-label" for="nombre">Nombre</label>
+      <div class="col-3">
+        <input type="text" id="nombre" class="form-control" formControlName="nombre" />
+      </div>
+      <label class="col-1 col-form-label" for="apellido1">Apellido</label>
+      <div class="col-3">
+        <input type="text" id="apellido1" class="form-control" formControlName="apellido1" />
+      </div>
+      <label class="col-1 col-form-label" for="apellido2">Apellido2</label>
+      <div class="col-3">
+        <input type="text" id="apellido2" class="form-control" formControlName="apellido2" />
+      </div>
+    </div>
+
+    <div class="row mb-1 mt-1 form-group">
+        <label class="col-1 col-form-label" for="nif">NIF</label>
+        <div class="col-2">
+          <input type="text" id="nif" class="form-control" formControlName="nif" />
+        </div>
+        <label class="col-1 col-form-label" for="direccion">Dirección</label>
+        <div class="col-3">
+        <input type="text" id="direccion" class="form-control" formControlName="direccion" />
+        </div>
+        <label class="col-1 col-form-label" for="cp">CP</label>
+        <div class="col-1">
+          <input type="text" id="cp" class="form-control" formControlName="cp" />
+        </div>
+        <label class="col-1 col-form-label" for="nif">Ciudad</label>
+        <div class="col-2">
+          <input type="text" id="ciudad" class="form-control" formControlName="ciudad" />
+        </div>
+      </div>
+
+    <div class="row mb-1 mt-1 form-group">
+      <!--Concepto-->
+      <div class="col-10">
+        <label class="col-1 col-form-label" for="descripcion">Concepto<span class="importante">*</span></label>
+        <textarea rows="5" cols="150" id="concepto" class="form-control" formControlName="concepto"></textarea>
+          <div [hidden]="concepto.valid || concepto.pristine">
+            <span *ngIf="concepto.errors?.['required']">Se debe introducir una concepto</span>
+          </div>
+      </div>
+    </div>
+
+    <div class="row mb-1 mt-1 form-group">
+      <!--Base-->
+      <label class="col-1 col-form-label" for="base">Base<span class="importante">*</span></label>
+      <div class="col-2">
+        <input type="number" id="base" class="form-control numeros" (blur)="calcular()" formControlName="base" />
+        <div [hidden]="base.valid || base.pristine">
+          <span *ngIf="base.errors?.['required']">Se debe introducir un importe base</span>
+        </div>
+      </div>
+      <!--IVA-->
+      <label class="col-1 col-form-label" for="iva">IVA</label>
+      <div class="col-2">
+        <input type="number" id="iva" class="form-control numeros" formControlName="iva" />
+      </div>
+      <!--Cuota-->
+      <label class="col-1 col-form-label" for="cuota">Cuota</label>
+      <div class="col-2">
+        <input type="number" id="cuota" class="form-control numeros" formControlName="cuota" />
+      </div>
+      <!-- Total -->
+      <label class="col-1 col-form-label" for="total">Total</label>
+      <div class="col-2">
+        <input type="total" id="duracion" class="form-control numeros" formControlName="total"/>
+      </div>
+    </div>    
+
+    <div class="row">
+      <div class="col-6 text-primary">{{error}}</div>
+    </div>
+
+    <div class="row">
+            <div class="col-6">Los campos marcados con&nbsp;<span class="importante">*</span>&nbsp;son obligatorios</div>
+    </div>
+
+    <div class="row justify-content-center mb-2">
+      <div class="col-2 ml-2">
+      <!-- Botón guardar-->
+          <button type="button" class="btn btn-outline-success" (click)="guardar()" [disabled]="modif.invalid || this.factura_service.estado">
+          Guardar</button>
+      </div>
+      <div class="col-2 ml-2">
+      <!-- Botón imprimir-->
+          <button type="button" class="btn btn-outline-info" (click)="imprimir()" [disabled]="modif.invalid">
+          Imprimir</button>
+      </div>
+      <div class="col-2 ml-2">
+      <!-- Botón email-->
+          <button type="button" class="btn btn-outline-primary" (click)="email()" [disabled]="modif.invalid">
+          Email</button>
+      </div>
+      <div class="col-2 ml-2">
+        <!-- Botón cerrar -->
+        <button type="button" class="btn btn-outline-warning" (click)="cerrar()">Cerrar</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 text-primary">{{mensaje}}</div>
+    </div>
+  </form>
+</main>
